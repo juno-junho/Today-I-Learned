@@ -12,6 +12,12 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // java faker : 가짜 정보를 생성해주는 패키지
+    implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
+
+    // lombok
+    implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
 }
 
 test {
