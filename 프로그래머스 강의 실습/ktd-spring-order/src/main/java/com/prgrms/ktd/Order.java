@@ -9,25 +9,22 @@ public class Order {
     private final UUID orderId;
     private final UUID customerId;
     private final List<OrderItem> orderItems;
-    private long discountAmount;
+//    private FixedAmountVoucher fixedAmountVoucher;   // 컴파일 타임에 강한 결합도를 가지고 있다. -> 느슨한 결합도로 바꾸고 싶다
+    private Voucher voucher;
     private OrderStatus orderStatus = OrderStatus.ACCEPTED;
 
-    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, long discountAmount) {
+    public Order(UUID orderId, UUID customerId, List<OrderItem> orderItems, Voucher voucher) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItems = orderItems;
-        this.discountAmount = discountAmount;
+        this.voucher = voucher;
     }
 
     public long totalAmount() {
         Long beforeDiscount = orderItems.stream()
                 .map(item -> item.productPrice() * item.quantity())
                 .reduce(0L, Long::sum);
-        return beforeDiscount - discountAmount;
-    }
-
-    public void setDiscountAmount(long discountAmount) {
-        this.discountAmount = discountAmount;
+        return voucher.discount(beforeDiscount); // 위임
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {
