@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * VoucherService, VoucherRepository
@@ -32,12 +31,12 @@ public class AppConfiguration {
     }
 
     @Bean
-    public VoucherService voucherService() {
-        return new VoucherService(voucherRepository());
+    public VoucherService voucherService(VoucherRepository voucherRepository) {
+        return new VoucherService(voucherRepository);
     }
 
     @Bean
-    public OrderService orderService() {
-        return new OrderService(voucherService(), orderRepository());
+    public OrderService orderService(VoucherService voucherService, OrderRepository orderRepository) {
+        return new OrderService(voucherService, orderRepository);
     }
 }
