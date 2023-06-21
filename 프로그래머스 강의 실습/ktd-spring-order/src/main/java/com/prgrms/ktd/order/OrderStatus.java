@@ -1,4 +1,4 @@
-package com.prgrms.ktd;
+package com.prgrms.ktd.order;
 
 public enum OrderStatus {
     ACCEPTED,

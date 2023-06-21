@@ -1,10 +1,7 @@
 package com.prgrms.ktd;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Optional;
 
 /**
  * VoucherService, VoucherRepository
@@ -17,7 +14,7 @@ import java.util.Optional;
  * -> 개별 객체들의 의존관계 설정 및 객체 생성 및 파괴 관장
  */
 @Configuration  // configuration metadata라고 알려주는 것. bean 정의한 도면이다!
-@ComponentScan
+@ComponentScan(basePackages = {"com.prgrms.ktd.order", "com.prgrms.ktd.voucher"})
 public class AppConfiguration {
 
 /*    @Bean

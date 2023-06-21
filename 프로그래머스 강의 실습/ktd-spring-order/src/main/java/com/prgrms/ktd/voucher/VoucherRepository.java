@@ -1,4 +1,4 @@
-package com.prgrms.ktd;
+package com.prgrms.ktd.voucher;
 
 import java.util.Optional;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.prgrms.ktd;
+package com.prgrms.ktd.order;
 
 import org.springframework.stereotype.Repository;
 

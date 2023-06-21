@@ -1,5 +1,9 @@
 package com.prgrms.ktd;
 
+import com.prgrms.ktd.order.OrderItem;
+import com.prgrms.ktd.order.OrderService;
+import com.prgrms.ktd.voucher.FixedAmountVoucher;
+import com.prgrms.ktd.voucher.VoucherRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 

@@ -1,4 +1,6 @@
-package com.prgrms.ktd;
+package com.prgrms.ktd.order;
+
+import com.prgrms.ktd.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;

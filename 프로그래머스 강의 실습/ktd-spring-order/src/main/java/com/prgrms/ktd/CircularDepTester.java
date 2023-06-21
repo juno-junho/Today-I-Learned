@@ -13,7 +13,7 @@ public class CircularDepTester {
     }
 }
 
-//@Configuration
+@Configuration
 class CircularConfig {
 
     @Bean

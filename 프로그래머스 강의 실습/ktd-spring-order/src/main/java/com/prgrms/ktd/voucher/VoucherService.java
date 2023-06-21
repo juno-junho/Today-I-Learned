@@ -1,4 +1,4 @@
-package com.prgrms.ktd;
+package com.prgrms.ktd.voucher;
 
 import org.springframework.stereotype.Service;
 
