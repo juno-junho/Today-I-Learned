@@ -4,6 +4,8 @@ import com.prgrms.ktd.order.OrderItem;
 import com.prgrms.ktd.order.OrderService;
 import com.prgrms.ktd.voucher.FixedAmountVoucher;
 import com.prgrms.ktd.voucher.VoucherRepository;
+import org.springframework.beans.factory.BeanFactoryUtils;
+import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
@@ -17,7 +19,9 @@ public class OrderTester {
 
         var customerId = UUID.randomUUID();
 //        var orderService = orderContext.orderService();
-        var voucherRepository = applicationContext.getBean(VoucherRepository.class);
+//        var voucherRepository = applicationContext.getBean(VoucherRepository.class);
+        // 아래와 같이 직접 applicationContext로 부터 가지고 오는 케이스 없기 때문에 걱정하지 않아도 된다.
+        var voucherRepository = BeanFactoryAnnotationUtils.qualifiedBeanOfType(applicationContext.getBeanFactory(), VoucherRepository.class, "memory");
         var voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L));
 
         var orderService = applicationContext.getBean(OrderService.class);

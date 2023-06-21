@@ -16,6 +16,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     // 생성 시 서비스에 대한 객체를 외부에서 주입받을 수 있도록.
+
     public OrderService(VoucherService voucherService, OrderRepository orderRepository) {
         this.voucherService = voucherService;
         this.orderRepository = orderRepository;
