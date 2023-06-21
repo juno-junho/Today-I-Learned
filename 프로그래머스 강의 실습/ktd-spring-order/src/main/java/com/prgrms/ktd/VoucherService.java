@@ -1,10 +1,13 @@
 package com.prgrms.ktd;
 
+import org.springframework.stereotype.Service;
+
 import java.util.UUID;
 
 /**
  * voucher에 대한 정보를 불러와서 voucher 클래스를 생성해준다
  */
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
