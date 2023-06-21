@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration  // configuration metadata라고 알려주는 것. bean 정의한 도면이다!
 //@ComponentScan(basePackages = {"com.prgrms.ktd.order", "com.prgrms.ktd.voucher"}) // error prone
 //@ComponentScan(basePackageClasses = {Order.class, Voucher.class})
-@ComponentScan(basePackages = {"com.prgrms.ktd.voucher", "com.prgrms.ktd.order"})
+@ComponentScan(basePackages = {"com.prgrms.ktd.voucher", "com.prgrms.ktd.order", "com.prgrms.ktd.configuration"})
 //        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = MemoryVoucherRepository.class)})
 public class AppConfiguration {
 
