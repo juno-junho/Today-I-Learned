@@ -14,7 +14,10 @@ import org.springframework.context.annotation.Configuration;
  * -> 개별 객체들의 의존관계 설정 및 객체 생성 및 파괴 관장
  */
 @Configuration  // configuration metadata라고 알려주는 것. bean 정의한 도면이다!
-@ComponentScan(basePackages = {"com.prgrms.ktd.order", "com.prgrms.ktd.voucher"})
+//@ComponentScan(basePackages = {"com.prgrms.ktd.order", "com.prgrms.ktd.voucher"}) // error prone
+//@ComponentScan(basePackageClasses = {Order.class, Voucher.class})
+@ComponentScan(basePackages = {"com.prgrms.ktd.voucher", "com.prgrms.ktd.order"})
+//        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = MemoryVoucherRepository.class)})
 public class AppConfiguration {
 
 /*    @Bean
