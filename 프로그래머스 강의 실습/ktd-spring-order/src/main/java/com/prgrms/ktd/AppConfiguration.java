@@ -4,6 +4,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 /**
  * VoucherService, VoucherRepository
@@ -20,6 +21,8 @@ import org.springframework.context.annotation.Configuration;
 //@ComponentScan(basePackageClasses = {Order.class, Voucher.class})
 @ComponentScan(basePackages = {"com.prgrms.ktd.voucher", "com.prgrms.ktd.order", "com.prgrms.ktd.configuration"})
 //        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = MemoryVoucherRepository.class)})
+
+@PropertySource("application.properties")
 public class AppConfiguration {
 
     @Bean(initMethod = "init")

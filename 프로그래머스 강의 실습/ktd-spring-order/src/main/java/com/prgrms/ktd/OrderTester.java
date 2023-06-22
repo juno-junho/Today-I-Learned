@@ -4,18 +4,29 @@ import com.prgrms.ktd.order.OrderItem;
 import com.prgrms.ktd.order.OrderService;
 import com.prgrms.ktd.voucher.FixedAmountVoucher;
 import com.prgrms.ktd.voucher.VoucherRepository;
-import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class OrderTester {
     public static void main(String[] args) {
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        /**
+         * environment 가져오기
+         */
+        var environment = applicationContext.getEnvironment();
+        String version = environment.getProperty("kdt.version");
+        Integer minimumOrderAmount = environment.getProperty("kdt.minimum-order-amount", Integer.class);
+        List supportVendors = environment.getProperty("kdt.support-vendors", List.class);
+
+        System.out.println("version = " + version);
+        System.out.println("minimumOrderAmount = " + minimumOrderAmount);
+        System.out.println("property = " + supportVendors);
 
         var customerId = UUID.randomUUID();
 //        var orderService = orderContext.orderService();
