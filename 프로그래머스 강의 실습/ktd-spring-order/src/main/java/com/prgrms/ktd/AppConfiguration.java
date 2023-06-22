@@ -1,6 +1,8 @@
 package com.prgrms.ktd;
 
+import com.prgrms.ktd.configuration.YamlPropertiesFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +24,8 @@ import org.springframework.context.annotation.PropertySource;
 @ComponentScan(basePackages = {"com.prgrms.ktd.voucher", "com.prgrms.ktd.order", "com.prgrms.ktd.configuration"})
 //        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = MemoryVoucherRepository.class)})
 
-@PropertySource("application.properties")
+@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
+@EnableConfigurationProperties
 public class AppConfiguration {
 
     @Bean(initMethod = "init")

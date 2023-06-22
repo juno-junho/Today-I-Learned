@@ -1,6 +1,7 @@
 package com.prgrms.ktd;
 
 import com.prgrms.ktd.order.OrderItem;
+import com.prgrms.ktd.order.OrderProperties;
 import com.prgrms.ktd.order.OrderService;
 import com.prgrms.ktd.voucher.FixedAmountVoucher;
 import com.prgrms.ktd.voucher.VoucherRepository;
@@ -19,14 +20,21 @@ public class OrderTester {
         /**
          * environment 가져오기
          */
-        var environment = applicationContext.getEnvironment();
-        String version = environment.getProperty("kdt.version");
-        Integer minimumOrderAmount = environment.getProperty("kdt.minimum-order-amount", Integer.class);
-        List supportVendors = environment.getProperty("kdt.support-vendors", List.class);
-
-        System.out.println("version = " + version);
-        System.out.println("minimumOrderAmount = " + minimumOrderAmount);
-        System.out.println("property = " + supportVendors);
+//        var environment = applicationContext.getEnvironment();
+//        String version = environment.getProperty("kdt.version");
+//        Integer minimumOrderAmount = environment.getProperty("kdt.minimum-order-amount", Integer.class);
+//        List supportVendors = environment.getProperty("kdt.support-vendors", List.class);
+//        List description = environment.getProperty("kdt.description", List.class);
+//
+//        System.out.println("version = " + version);
+//        System.out.println("minimumOrderAmount = " + minimumOrderAmount);
+//        System.out.println("property = " + supportVendors);
+//        System.out.println("description = " + description);
+        OrderProperties orderProperties = applicationContext.getBean(OrderProperties.class);
+        System.out.println("orderProperties.getVersion() = " + orderProperties.getVersion());
+        System.out.println("orderProperties.getMinimumOrderAmount() = " + orderProperties.getMinimumOrderAmount());
+        System.out.println("orderProperties.getSupportVendors() = " + orderProperties.getSupportVendors());
+        System.out.println("orderProperties.getDescription() = " + orderProperties.getDescription());
 
         var customerId = UUID.randomUUID();
 //        var orderService = orderContext.orderService();
