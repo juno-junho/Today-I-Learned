@@ -1,5 +1,7 @@
 package com.prgrms.ktd;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,24 +22,20 @@ import org.springframework.context.annotation.Configuration;
 //        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = MemoryVoucherRepository.class)})
 public class AppConfiguration {
 
-/*    @Bean
-    public VoucherRepository voucherRepository() {
-        return voucherId -> Optional.empty();
+    @Bean(initMethod = "init")
+    public BeanOne beanOne() {
+        return new BeanOne();
+    }
+}
+
+class BeanOne implements InitializingBean {
+
+    public void init() {
+        System.out.println("[BeanOne] init called!");
     }
 
-    @Bean
-    public OrderRepository orderRepository() {
-        return order -> {
-
-        };
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("[BeanOne] afterPropertiesSet called!");
     }
-    @Bean
-    public VoucherService voucherService(VoucherRepository voucherRepository) {
-        return new VoucherService(voucherRepository);
-    }
-
-    @Bean
-    public OrderService orderService(VoucherService voucherService, OrderRepository orderRepository) {
-        return new OrderService(voucherService, orderRepository);
-    }*/
 }
