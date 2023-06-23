@@ -6,11 +6,13 @@ import com.prgrms.ktd.order.OrderService;
 import com.prgrms.ktd.voucher.FixedAmountVoucher;
 import com.prgrms.ktd.voucher.JdbcVoucherRepository;
 import com.prgrms.ktd.voucher.VoucherRepository;
+import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class OrderTester {
@@ -21,7 +23,7 @@ public class OrderTester {
          * environment 가져오기
          */
         var environment = applicationContext.getEnvironment();
-        environment.setActiveProfiles("local");
+        environment.setActiveProfiles("dev");
         applicationContext.refresh();
 //        String version = environment.getProperty("kdt.version");
 //        Integer minimumOrderAmount = environment.getProperty("kdt.minimum-order-amount", Integer.class);
