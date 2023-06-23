@@ -13,7 +13,7 @@ import java.util.UUID;
 public class VoucherService {
 
     @Autowired
-    private @Qualifier("memory") VoucherRepository voucherRepository;
+    private VoucherRepository voucherRepository;
 
 //    public VoucherService(VoucherRepository voucherRepository) {
 //        this.voucherRepository = voucherRepository;

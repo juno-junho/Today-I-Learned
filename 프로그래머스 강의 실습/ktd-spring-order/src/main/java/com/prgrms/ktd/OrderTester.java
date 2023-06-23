@@ -4,23 +4,25 @@ import com.prgrms.ktd.order.OrderItem;
 import com.prgrms.ktd.order.OrderProperties;
 import com.prgrms.ktd.order.OrderService;
 import com.prgrms.ktd.voucher.FixedAmountVoucher;
+import com.prgrms.ktd.voucher.JdbcVoucherRepository;
 import com.prgrms.ktd.voucher.VoucherRepository;
-import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class OrderTester {
     public static void main(String[] args) {
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        /**
+        var applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(AppConfiguration.class);
+                /**
          * environment 가져오기
          */
-//        var environment = applicationContext.getEnvironment();
+        var environment = applicationContext.getEnvironment();
+        environment.setActiveProfiles("local");
+        applicationContext.refresh();
 //        String version = environment.getProperty("kdt.version");
 //        Integer minimumOrderAmount = environment.getProperty("kdt.minimum-order-amount", Integer.class);
 //        List supportVendors = environment.getProperty("kdt.support-vendors", List.class);
@@ -36,19 +38,23 @@ public class OrderTester {
         System.out.println("orderProperties.getSupportVendors() = " + orderProperties.getSupportVendors());
         System.out.println("orderProperties.getDescription() = " + orderProperties.getDescription());
 
+
         var customerId = UUID.randomUUID();
 //        var orderService = orderContext.orderService();
 //        var voucherRepository = applicationContext.getBean(VoucherRepository.class);
         // 아래와 같이 직접 applicationContext로 부터 가지고 오는 케이스 없기 때문에 걱정하지 않아도 된다.
-        var voucherRepository = BeanFactoryAnnotationUtils.qualifiedBeanOfType(applicationContext.getBeanFactory(), VoucherRepository.class, "memory");
-        var voucherRepository2 = BeanFactoryAnnotationUtils.qualifiedBeanOfType(applicationContext.getBeanFactory(), VoucherRepository.class, "memory");
+//        var voucherRepository = BeanFactoryAnnotationUtils.qualifiedBeanOfType(applicationContext.getBeanFactory(), VoucherRepository.class, "memory");
+//        var voucherRepository2 = BeanFactoryAnnotationUtils.qualifiedBeanOfType(applicationContext.getBeanFactory(), VoucherRepository.class, "memory");
+        var voucherRepository = applicationContext.getBean(VoucherRepository.class);
+        System.out.println(MessageFormat.format("is Jdbc Repo -> {0}", voucherRepository instanceof JdbcVoucherRepository));
+        System.out.println(MessageFormat.format("is Jdbc Repo -> {0}", voucherRepository.getClass().getCanonicalName()));
 
         /**
          * singleton 확인
          */
-        System.out.println("voucherRepository2 = " + voucherRepository2);
-        System.out.println("voucherRepository = " + voucherRepository);
-        System.out.println(MessageFormat.format("{0}", voucherRepository == voucherRepository2));
+//        System.out.println("voucherRepository2 = " + voucherRepository2);
+//        System.out.println("voucherRepository = " + voucherRepository);
+//        System.out.println(MessageFormat.format("{0}", voucherRepository == voucherRepository2));
         var voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L));
 
         var orderService = applicationContext.getBean(OrderService.class);
