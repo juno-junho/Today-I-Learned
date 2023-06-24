@@ -6,20 +6,27 @@ import com.prgrms.ktd.order.OrderService;
 import com.prgrms.ktd.voucher.FixedAmountVoucher;
 import com.prgrms.ktd.voucher.JdbcVoucherRepository;
 import com.prgrms.ktd.voucher.VoucherRepository;
-import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class OrderTester {
+
+    // 구현체를 import 해서 logger를 쓰면 안된다. 꼭 slf4j와 loggerfactory 사용하기
+    private static final Logger logger = LoggerFactory.getLogger(OrderTester.class);
+
     public static void main(String[] args) {
+
+        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
         var applicationContext = new AnnotationConfigApplicationContext();
         applicationContext.register(AppConfiguration.class);
-                /**
+        /**
          * environment 가져오기
          */
         var environment = applicationContext.getEnvironment();
@@ -35,10 +42,11 @@ public class OrderTester {
 //        System.out.println("property = " + supportVendors);
 //        System.out.println("description = " + description);
         OrderProperties orderProperties = applicationContext.getBean(OrderProperties.class);
-        System.out.println("orderProperties.getVersion() = " + orderProperties.getVersion());
-        System.out.println("orderProperties.getMinimumOrderAmount() = " + orderProperties.getMinimumOrderAmount());
-        System.out.println("orderProperties.getSupportVendors() = " + orderProperties.getSupportVendors());
-        System.out.println("orderProperties.getDescription() = " + orderProperties.getDescription());
+        logger.info("logger name => {}", logger.getName());
+        logger.info("orderProperties.getVersion() = {}", orderProperties.getVersion());
+        logger.info("orderProperties.getMinimumOrderAmount() = {}", orderProperties.getMinimumOrderAmount());
+        logger.info("orderProperties.getSupportVendors() = {}", orderProperties.getSupportVendors());
+        logger.info("orderProperties.getDescription() = {}", orderProperties.getDescription());
 
 
         var customerId = UUID.randomUUID();

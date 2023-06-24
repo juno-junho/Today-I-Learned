@@ -1,5 +1,7 @@
 package com.prgrms.ktd.order;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -11,14 +13,16 @@ import java.util.List;
 @ConfigurationProperties(prefix = "kdt")
 public class OrderProperties implements InitializingBean {
 
-//    @Value("${kdt.version2:v0.0.0}")    // 생성자를 만들지 않아도 version에 이 값이 주입된다.
+    private final static Logger logger = LoggerFactory.getLogger(OrderProperties.class);
+
+    //    @Value("${kdt.version2:v0.0.0}")    // 생성자를 만들지 않아도 version에 이 값이 주입된다.
     private String version;
 
-//    @Value("12")
+    //    @Value("12")
 //    @Value("${kdt.minimum-order-amount}")
     private int minimumOrderAmount;
 
-//    @Value("d, a, b")
+    //    @Value("d, a, b")
 //    @Value("${kdt.support-vendors}")
     private List<String> supportVendors;
 
@@ -29,10 +33,10 @@ public class OrderProperties implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("[OrderProperties] version = " + version);
-        System.out.println("[OrderProperties] minimumOrderAmount = " + minimumOrderAmount);
-        System.out.println("[OrderProperties] supportVendors = " + supportVendors);
-        System.out.println("[OrderProperties] javaHome = " + javaHome);
+        logger.debug("[OrderProperties] version = {} ", version);
+        logger.debug("[OrderProperties] minimumOrderAmount = {} ", minimumOrderAmount);
+        logger.debug("[OrderProperties] supportVendors = {} ", supportVendors);
+        logger.debug("[OrderProperties] javaHome = {} ", javaHome);
     }
 
     public String getVersion() {
