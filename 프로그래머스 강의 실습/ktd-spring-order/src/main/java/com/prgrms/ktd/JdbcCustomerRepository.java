@@ -3,6 +3,7 @@ package com.prgrms.ktd;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.ByteBuffer;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -53,7 +54,7 @@ public class JdbcCustomerRepository {
         ) {
             while (resultSet.next()) {
                 String customerName = resultSet.getString("name");
-                UUID customerId = UUID.nameUUIDFromBytes(resultSet.getBytes("customer_id"));
+                UUID customerId = toUUID(resultSet.getBytes("customer_id"));
                 LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
                 logger.info("customer id -> {}, name -> {}, createdAt -> {}", customerId, customerName, createdAt);
                 names.add(customerName);
@@ -91,6 +92,10 @@ public class JdbcCustomerRepository {
         return 0;
     }
 
+    static UUID toUUID(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    }
 
     public static void main(String[] args) {
         JdbcCustomerRepository customerRepository = new JdbcCustomerRepository();
