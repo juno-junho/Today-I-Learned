@@ -15,21 +15,24 @@ public class JdbcCustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
 
     public List<String> findNames(String name) {
-        String SELECT_SQL = "select * from customers WHERE name = '%s'".formatted(name);
+//        String SELECT_SQL = "select * from customers WHERE name = '%s'".formatted(name);
+        String SELECT_SQL = "select * from customers WHERE name = ?";
         logger.info(SELECT_SQL);
         List<String> names = new ArrayList<>();
 
         try (
                 var connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/order_mgmt", "root", "sean5633");
-                var statement = connection.createStatement();
-                var resultSet = statement.executeQuery(SELECT_SQL)
+                var statement = connection.prepareStatement(SELECT_SQL)
         ) {
-            while (resultSet.next()) {
-                String customerName = resultSet.getString("name");
-                UUID customerId = UUID.nameUUIDFromBytes(resultSet.getBytes("customer_id"));
-                LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-                logger.info("customer id -> {}, name -> {}, createdAt -> {}", customerId, customerName, createdAt);
-                names.add(customerName);
+            statement.setString(1, name);
+            try( var resultSet = statement.executeQuery()){
+                while (resultSet.next()) {
+                    String customerName = resultSet.getString("name");
+                    UUID customerId = UUID.nameUUIDFromBytes(resultSet.getBytes("customer_id"));
+                    LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+                    logger.info("customer id -> {}, name -> {}, createdAt -> {}", customerId, customerName, createdAt);
+                    names.add(customerName);
+                }
             }
         } catch (SQLException throwables) {
             logger.error("Got error while closing connection", throwables);
