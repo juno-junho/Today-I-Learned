@@ -16,9 +16,12 @@ repositories {
 }
 
 dependencies {
+    // servlet을 위한 web
+    implementation 'org.springframework.boot:spring-boot-starter-web:'
     implementation 'org.springframework.boot:spring-boot-starter'
     // jdbc
     implementation 'org.springframework.boot:spring-boot-starter-jdbc:'
+    implementation project(path: ':')
     // configuring annotation processor
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
