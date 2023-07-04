@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+//@WebServlet(value = "/*", loadOnStartup = 1) // loadOnStartup : WAS가 올라갈때 미리 load 시키겠다
 public class TestServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(TestServlet.class);
