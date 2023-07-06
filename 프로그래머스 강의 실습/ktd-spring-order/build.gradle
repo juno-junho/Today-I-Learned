@@ -16,6 +16,8 @@ repositories {
 }
 
 dependencies {
+    // jstl
+    implementation 'javax.servlet:jstl:1.2'
     // servlet을 위한 web
     implementation 'org.springframework.boot:spring-boot-starter-web:'
     implementation 'org.springframework.boot:spring-boot-starter'
