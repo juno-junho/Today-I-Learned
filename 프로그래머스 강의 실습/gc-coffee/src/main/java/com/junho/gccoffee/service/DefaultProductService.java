@@ -3,11 +3,13 @@ package com.junho.gccoffee.service;
 import com.junho.gccoffee.model.Category;
 import com.junho.gccoffee.model.Product;
 import com.junho.gccoffee.repository.ProductRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class DefaultProductService implements ProductService {
 
     private final ProductRepository productRepository;
