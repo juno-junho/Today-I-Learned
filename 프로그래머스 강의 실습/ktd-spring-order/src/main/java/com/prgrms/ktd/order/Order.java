@@ -12,7 +12,7 @@ public class Order {
     private final UUID orderId;
     private final UUID customerId;
     private final List<OrderItem> orderItems;
-//    private FixedAmountVoucher fixedAmountVoucher;   // 컴파일 타임에 강한 결합도를 가지고 있다. -> 느슨한 결합도로 바꾸고 싶다
+    //    private FixedAmountVoucher fixedAmountVoucher;   // 컴파일 타임에 강한 결합도를 가지고 있다. -> 느슨한 결합도로 바꾸고 싶다
     private Optional<Voucher> voucher;
     private OrderStatus orderStatus = OrderStatus.ACCEPTED;
 
