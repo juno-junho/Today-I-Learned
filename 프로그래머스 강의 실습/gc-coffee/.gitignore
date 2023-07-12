@@ -8,6 +8,9 @@ gradle
 gradlew
 gradlew.bat
 
+## DB
+application.yaml
+
 ### STS ###
 .apt_generated
 .classpath
