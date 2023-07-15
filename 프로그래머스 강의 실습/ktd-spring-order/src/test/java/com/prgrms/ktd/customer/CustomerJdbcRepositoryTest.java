@@ -1,6 +1,7 @@
 package com.prgrms.ktd.customer;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,10 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -45,6 +49,9 @@ class CustomerJdbcRepositoryTest {
     @Autowired
     DataSource dataSource;
 
+    @BeforeAll
+    void cleanUp
+
     @Test
     void testHikariConnectionPool() {
         assertThat(dataSource.getClass().getName())
@@ -57,5 +64,38 @@ class CustomerJdbcRepositoryTest {
         List<Customer> customers = customerJdbcRepository.findAll();
         assertThat(customers).isNotEmpty();
         Thread.sleep(10000);
+    }
+
+    @Test
+    @DisplayName("이름으로 고객을 조회할 수 있다.")
+    public void testFindByName() {
+        Optional<Customer> customer = customerJdbcRepository.findByName("new-user");
+        assertThat(customer).isNotEmpty();
+
+        var unknown = customerJdbcRepository.findByName("unknown-user");
+        assertThat(unknown).isEmpty();
+    }
+
+    @Test
+    @DisplayName("이름으로 고객을 조회할 수 있다.")
+    public void testFindByEmail() {
+        Optional<Customer> customer = customerJdbcRepository.findByEmail("test00@gmail.com");
+        assertThat(customer).isNotEmpty();
+
+        var unknown = customerJdbcRepository.findByName("unknown-user@gmail.com");
+        assertThat(unknown).isEmpty();
+    }
+
+    @Test
+    @DisplayName("고객을 추가할 수 있다")
+    public void testInsert() {
+        customerJdbcRepository.deleteAll();
+
+        Customer customer = new Customer(UUID.randomUUID(), "test-user", "test1-user@gmail.com", LocalDateTime.now());
+        customerJdbcRepository.insert(customer);
+
+        var retrievedCustomer = customerJdbcRepository.findById(customer.getCustomerId());
+
+        assertThat(retrievedCustomer).isNotEmpty();
     }
 }
