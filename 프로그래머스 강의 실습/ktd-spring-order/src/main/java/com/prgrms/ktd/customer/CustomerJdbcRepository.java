@@ -3,6 +3,9 @@ package com.prgrms.ktd.customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -22,8 +25,21 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     private final DataSource dataSource;
 
-    public CustomerJdbcRepository(DataSource dataSource) {
+    private final JdbcTemplate jdbcTemplate; // jdbc template는 datasource가 필요 없다.
+
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
+        String customerName = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
+                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
+    };
+
+    public CustomerJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
         this.dataSource = dataSource;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
@@ -69,8 +85,15 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
+    public int count() {
+        return jdbcTemplate.queryForObject("select count(*) from customers", Integer.class);
+    }
+
+    @Override
     public List<Customer> findAll() {
-        List<Customer> allCustomers = new ArrayList<>();
+        return jdbcTemplate.query("select * from customers", customerRowMapper);
+
+        /*List<Customer> allCustomers = new ArrayList<>();
 
         try (
                 var connection = dataSource.getConnection(); // 관심사의 분리가 정확히 적용됨
@@ -84,7 +107,17 @@ public class CustomerJdbcRepository implements CustomerRepository {
             logger.error("Got error while closing connection", throwable);
             throw new RuntimeException(throwable);
         }
-        return allCustomers;
+        return allCustomers;*/
+    }
+
+    private Customer mapToCustomer(ResultSet resultSet) throws SQLException {
+        String customerName = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
+                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
     }
 
     private static void mapToCustomer(List<Customer> allCustomers, ResultSet resultSet) throws SQLException {
@@ -100,9 +133,18 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        List<Customer> allCustomers = new ArrayList<>();
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers where customer_id = UUID_TO_BIN(?)",
+                    customerRowMapper,
+                    customerId.toString().getBytes()));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return Optional.empty();
+        }
 
-        try (
+//        List<Customer> allCustomers = new ArrayList<>();
+
+      /*  try (
                 var connection = dataSource.getConnection();
                 var statement = connection.prepareStatement("select * from customers where customer_id = UUID_TO_BIN(?)")
         ) {
@@ -117,7 +159,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             logger.error("Got error while closing connection", e);
             throw new RuntimeException(e);
         }
-        return allCustomers.stream().findFirst();
+        return allCustomers.stream().findFirst();*/
     }
 
     @Override

@@ -12,6 +12,8 @@ public interface CustomerRepository {
 
 //    Customer save(Customer customer); // 없으면 넣고, 있으면 update하고.. -> 쓰지는 않을 것
 
+    int count();
+
     List<Customer> findAll();
 
     Optional<Customer> findById(UUID customerId);
