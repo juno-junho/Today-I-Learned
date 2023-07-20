@@ -28,6 +28,9 @@ dependencies {
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'mysql:mysql-connector-java:8.0.28'
+
+    // h2
+    testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
 }
 
 tasks.named('test') {
