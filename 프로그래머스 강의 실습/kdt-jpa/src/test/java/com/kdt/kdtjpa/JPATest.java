@@ -1,6 +1,7 @@
 package com.kdt.kdtjpa;
 
-import com.kdt.kdtjpa.domain.CustomerEntity;
+import com.kdt.kdtjpa.domain.Customer;
+import com.kdt.kdtjpa.domain.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,7 @@ public class JPATest {
     @Test
     void insert_test() {
         // Given
-        CustomerEntity customer = new CustomerEntity();
+        Customer customer = new Customer();
         customer.setId(1L);
         customer.setFirstName("junho");
         customer.setLastName("hwang");
@@ -38,25 +39,25 @@ public class JPATest {
         repository.save(customer);
 
         // Then
-        CustomerEntity entity = repository.findById(1L).get();
+        Customer entity = repository.findById(1L).get();
     }
 
     @Test
     @Transactional
     void update_test() {
         // Given
-        CustomerEntity customer = new CustomerEntity();
+        Customer customer = new Customer();
         customer.setId(1L);
         customer.setFirstName("junho");
         customer.setLastName("hwang");
         repository.save(customer);
 
         // When
-        CustomerEntity entity = repository.findById(1L).get();
+        Customer entity = repository.findById(1L).get();
         entity.setFirstName("backend");
         entity.setLastName("programmers");
 
         // Then
-        CustomerEntity updated = repository.findById(1L).get();
+        Customer updated = repository.findById(1L).get();
     }
 }
