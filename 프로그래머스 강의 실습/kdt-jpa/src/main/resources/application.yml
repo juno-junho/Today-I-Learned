@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/test;
+    username: sa
+    password:
+  jpa:
+    generate-ddl: true
+    open-in-view: false
+    show-sql: true
+
+mybatis:
+  #자바 객체에 resultSet 결과를 자동으로 mapping 시켜준다
+  type-aliases-package: com.kdt.kdtjpa.repository.domain
+  configuration:
+    # first_name, last_name -> firstName, lastName으로 mapping
+    map-underscore-to-camel-case: true
+    # 한번에 쿼리 몇개씩 가져 올 지
+    default-fetch-size: 100
+    # statement 객체가 rdb와 통신할때 timeout
+    default-statement-timeout: 30
+    # 쿼리를 어디에 관리할 것인지
+  mapper-locations: classpath:mapper/*.xml
