@@ -8,7 +8,8 @@ import lombok.Setter;
 @Table(name = "item")
 @Getter
 @Setter
-@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "DTYPE")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
