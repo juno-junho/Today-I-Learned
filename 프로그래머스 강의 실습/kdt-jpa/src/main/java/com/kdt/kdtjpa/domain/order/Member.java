@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
@@ -27,4 +29,11 @@ public class Member {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "member") // 연관관계 주인 설정
+    private List<Order> orders = new ArrayList<>();
+
+    public void addOrder(Order order) { // 연관관계 편의 메서드
+        order.setMember(this);
+    }
 }

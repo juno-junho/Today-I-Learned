@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -71,4 +72,35 @@ class OrderPersistenceTest {
         log.info("nick : {}", orderMemberEntity.getNickName());
     }
 
+    @Test
+    void 연관관계_테스트() {
+        EntityManager entityManager = emf.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        transaction.begin();
+        Member member = new Member();
+        member.setName("황준호");
+        member.setNickName("juno");
+        member.setAddress("서울시 광진구");
+        member.setAge(26);
+
+        entityManager.persist(member); // 회원 객체 저장
+
+        Order order = new Order();
+        order.setUuid(UUID.randomUUID().toString());
+        order.setOrderStatus(OPENED);
+        order.setOrderDateTime(LocalDateTime.now());
+        order.setMemo("부재시 전화주세요.");
+        order.setMember(member);    // 회원 매핑
+//        member.setOrders(Lists.newArrayList(order));
+
+        entityManager.persist(order);   // 주문 객체 저장
+        transaction.commit();
+
+        entityManager.clear();
+        Order entity = entityManager.find(Order.class, order.getUuid());
+
+        log.info("{}", entity.getMember().getNickName());
+        log.info("{}", entity.getMember().getOrders().size());
+    }
 }
