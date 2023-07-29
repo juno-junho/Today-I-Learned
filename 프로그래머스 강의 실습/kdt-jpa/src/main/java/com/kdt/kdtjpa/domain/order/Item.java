@@ -6,9 +6,10 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "item")
-@Getter @Setter
-public class Item {
-
+@Getter
+@Setter
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
