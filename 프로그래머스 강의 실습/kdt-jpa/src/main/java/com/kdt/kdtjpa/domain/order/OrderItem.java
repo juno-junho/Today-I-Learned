@@ -8,7 +8,7 @@ import lombok.Setter;
 @Table(name = "order_item")
 @Getter
 @Setter
-public class OrderItem {
+public class OrderItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

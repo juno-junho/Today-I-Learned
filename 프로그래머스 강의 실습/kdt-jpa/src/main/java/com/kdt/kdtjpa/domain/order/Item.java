@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @DiscriminatorColumn(name = "DTYPE")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class Item {
+public abstract class Item extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
