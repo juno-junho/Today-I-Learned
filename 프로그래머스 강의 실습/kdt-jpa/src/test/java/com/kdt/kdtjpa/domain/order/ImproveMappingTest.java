@@ -1,5 +1,7 @@
 package com.kdt.kdtjpa.domain.order;
 
+import com.kdt.kdtjpa.domain.parent.Parent;
+import com.kdt.kdtjpa.domain.parent.ParentId;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -7,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -55,5 +56,25 @@ class ImproveMappingTest {
         entityManager.persist(order);
 
         transaction.commit();
+    }
+
+    @Test
+    void id_Test() {
+        EntityManager entityManager = emf.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        transaction.begin();
+
+        Parent parent = new Parent();
+        parent.setId1("id1");
+        parent.setId2("id2");
+
+        entityManager.persist(parent);
+        transaction.commit();
+
+        entityManager.clear();
+
+        Parent parent1 = entityManager.find(Parent.class, new ParentId("id1", "id2"));
+        log.info("{} {}", parent1.getId1(), parent1.getId2());
     }
 }
