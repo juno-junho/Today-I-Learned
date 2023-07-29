@@ -15,10 +15,13 @@ public class Order extends BaseEntity {
     @Id
     @Column(name = "id")
     private String uuid;
-    @Column(name = "memo")
+
+    @Lob
     private String memo;
+
     @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
+
     @Column(name = "order_datetime", columnDefinition = "TIMESTAMP")
     private LocalDateTime orderDateTime;
 
